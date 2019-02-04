@@ -8,7 +8,7 @@
 
 #ifndef AMAZON_AWS_H
 #define AMAZON_AWS_H
-
+//#define DEBUG
 typedef enum{
 	HTTP_GET=1,
 	HTTP_POST

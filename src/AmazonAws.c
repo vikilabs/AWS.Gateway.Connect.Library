@@ -17,6 +17,7 @@ int https_post(char *url, char *header, char *body)
 	CURL *curl;
 	CURLcode res;
 	struct curl_slist *custom_header = NULL;
+	long http_code = -1;
 
 	curl_global_init(CURL_GLOBAL_DEFAULT);
 	curl = curl_easy_init();
@@ -29,11 +30,20 @@ int https_post(char *url, char *header, char *body)
 		curl_easy_setopt(curl, CURLOPT_POSTFIELDS, body);
 		curl_easy_setopt(curl, CURLOPT_SSL_VERIFYPEER, 0L);
 		curl_easy_setopt(curl, CURLOPT_SSL_VERIFYHOST, 0L);
+		#ifdef DEBUG
 		curl_easy_setopt(curl, CURLOPT_VERBOSE, 1L);
-		
+		#else
+		curl_easy_setopt(curl, CURLOPT_VERBOSE, 0L);
+		#endif
 		printf("\n#################################################################\n");
 		res = curl_easy_perform(curl);
 		printf("\n#################################################################\n");
+		
+		curl_easy_getinfo (curl, CURLINFO_RESPONSE_CODE, &http_code);
+
+		if (http_code != 200){
+			fprintf(stderr, "[ failure ] HTTP POST %ld\n", http_code);
+		}
 
 		if(res != CURLE_OK){
 			fprintf(stderr, "[ failure ] curl_easy_perform() %s\n", curl_easy_strerror(res));
@@ -43,7 +53,7 @@ int https_post(char *url, char *header, char *body)
 	}
 
 	curl_global_cleanup();
-	return 0;
+	return http_code;
 }
 
 #if 0
@@ -60,9 +70,9 @@ int https_get(char *url)
  */
 int AWS_ServerWrite(char *url, char *header, char *body)
 {
-	https_post(url, header, body);
+	int ret = https_post(url, header, body);
 	printf("\n");
-	return 0;
+	return ret;
 }
 
 #if 0 

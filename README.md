@@ -1,3 +1,4 @@
-Library to communicate with Amazon AWS Gateway.
+Library to communicate with thingspeak cloud.
 
-- Write data to Amazon AWS Gateway (POST)
+- Write data to ThingSpeak cloud
+- Read data from ThingSpeak cloud
