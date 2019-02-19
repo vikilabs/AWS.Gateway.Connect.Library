@@ -1,4 +1,6 @@
-Library to communicate with thingspeak cloud.
+#### AWS IOT Cloud communication library
 
-- Write data to ThingSpeak cloud
-- Read data from ThingSpeak cloud
+ibrary to communicate with AWS IoT Cloud
+
+- Write data to AWS IoT Cloud
+- Read data from AWS IoT cloud
